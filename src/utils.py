@@ -2,22 +2,23 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 import pandas as pd
+import pickle
 
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
-from joblib import dump
 
 def update_model(model: Pipeline) -> None:
     """
         Updates the ML model
     """
-    dump(model, "models/model.pkl")
+    with open("models/model.pkl", "wb") as f:
+        pickle.dump(model, f, protocol=4)
 
 def save_simple_metrics_report(train_score: float, test_score: float, validation_score: float, model: Pipeline) -> None:
     """
         Saves the model performance report
     """
-    
+
     with open('report.txt', 'w') as report_file:
         report_file.write('# Model Pipeline Description \n')
 
@@ -39,4 +40,3 @@ def plot_model_performance(y_pred, y_test):
     disp.plot()
     plt.show()
     plt.savefig('images/confusion_matrix.png')
- 
